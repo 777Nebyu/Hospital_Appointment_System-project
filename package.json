@@ -1,0 +1,37 @@
+{
+  "name": "hospital-appointment-system",
+  "version": "1.0.0",
+  "description": "Hospital Appointment System - Node.js + Express + EJS + PostgreSQL",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "init-db": "node scripts/initDatabase.js"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "connect-flash": "^0.1.1",
+    "connect-pg-simple": "^9.0.1",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.3.1",
+    "express-session": "^1.18.0",
+    "express-validator": "^7.1.0",
+    "helmet": "^7.1.0",
+    "pg": "^8.12.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  },
+  "keywords": [
+    "hospital",
+    "appointment",
+    "nodejs",
+    "express",
+    "ejs",
+    "postgresql"
+  ],
+  "author": "Kibruyesfa, Nebyu, Tewobstya, Wengel, Yihune",
+  "license": "MIT"
+}
