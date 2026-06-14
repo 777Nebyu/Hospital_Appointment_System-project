@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> | Hospital Appointment System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: { 50: '#f0fdf4', 100: '#dcfce7', 200: '#bbf7d0', 300: '#86efac', 400: '#4ade80', 500: '#22c55e', 600: '#16a34a', 700: '#15803d', 800: '#166534', 900: '#14532d' },
+                        secondary: { 50: '#fafaf9', 100: '#f5f5f4', 200: '#e7e5e4', 300: '#d6d3d1', 400: '#a8a29e', 500: '#78716c', 600: '#57534e', 700: '#44403c', 800: '#292524', 900: '#1c1917' },
+                        accent: { 50: '#fff7ed', 100: '#ffedd5', 200: '#fed7aa', 300: '#fdba74', 400: '#fb923c', 500: '#f97316', 600: '#ea580c', 700: '#c2410c', 800: '#9a3412', 900: '#7c2d12' },
+                        medical: { 50: '#f0f9ff', 100: '#e0f2fe', 200: '#bae6fd', 300: '#7dd3fc', 400: '#38bdf8', 500: '#0ea5e9', 600: '#0284c7', 700: '#0369a1', 800: '#075985', 900: '#0c4a6e' }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .sidebar-link { transition: all 0.2s ease; }
+        .sidebar-link:hover { background-color: rgba(34, 197, 94, 0.1); color: #16a34a; }
+        .sidebar-link.active { background-color: #16a34a; color: white; }
+        .card-hover { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .card-hover:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); }
+        .btn-primary { background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); }
+        .btn-primary:hover { background: linear-gradient(135deg, #15803d 0%, #166534 100%); }
+        .btn-danger { background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); }
+        .btn-danger:hover { background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%); }
+        .btn-warning { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+        .btn-warning:hover { background: linear-gradient(135deg, #d97706 0%, #b45309 100%); }
+        .status-pending { background-color: #fef3c7; color: #92400e; }
+        .status-approved { background-color: #d1fae5; color: #065f46; }
+        .status-rejected { background-color: #fee2e2; color: #991b1b; }
+        .status-completed { background-color: #dbeafe; color: #1e40af; }
+        .status-cancelled { background-color: #f3f4f6; color: #4b5563; }
+        .fade-in { animation: fadeIn 0.3s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-secondary-50 text-secondary-800 min-h-screen">
+    <!-- Flash Messages -->
+    <% if (flashError && flashError.length > 0) { %>
+        <div class="fixed top-4 right-4 z-50 max-w-md fade-in">
+            <% flashError.forEach(function(msg) { %>
+                <div class="bg-red-50 border-l-4 border-red-500 text-red-700 px-4 py-3 rounded shadow-lg mb-2 flex items-center justify-between">
+                    <span class="flex items-center"><i class="fas fa-exclamation-circle mr-2"></i><%= msg %></span>
+                    <button onclick="this.parentElement.remove()" class="text-red-500 hover:text-red-700"><i class="fas fa-times"></i></button>
+                </div>
+            <% }); %>
+        </div>
+    <% } %>
+
+    <% if (flashSuccess && flashSuccess.length > 0) { %>
+        <div class="fixed top-4 right-4 z-50 max-w-md fade-in">
+            <% flashSuccess.forEach(function(msg) { %>
+                <div class="bg-green-50 border-l-4 border-green-500 text-green-700 px-4 py-3 rounded shadow-lg mb-2 flex items-center justify-between">
+                    <span class="flex items-center"><i class="fas fa-check-circle mr-2"></i><%= msg %></span>
+                    <button onclick="this.parentElement.remove()" class="text-green-500 hover:text-green-700"><i class="fas fa-times"></i></button>
+                </div>
+            <% }); %>
+        </div>
+    <% } %>
