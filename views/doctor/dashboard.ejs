@@ -1,0 +1,147 @@
+<%- include('../partials/header') %>
+<%- include('../partials/nav') %>
+
+<div class="flex min-h-screen bg-secondary-50">
+    <%- include('../partials/sidebar', { currentPath: '/doctor/dashboard' }) %>
+
+    <main class="flex-1 p-6 lg:p-8 overflow-y-auto">
+        <div class="max-w-7xl mx-auto">
+            <!-- Welcome Header -->
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-secondary-800">Welcome, Dr. <%= doctor.first_name %>!</h1>
+                <p class="text-secondary-500 mt-1">Manage your appointments and patient care.</p>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-secondary-100 card-hover">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-calendar-check text-primary-600 text-xl"></i>
+                        </div>
+                        <span class="text-sm font-medium text-primary-600 bg-primary-50 px-2 py-1 rounded-full">Total</span>
+                    </div>
+                    <p class="text-3xl font-bold text-secondary-800"><%= stats.total %></p>
+                    <p class="text-sm text-secondary-500">Appointments</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-secondary-100 card-hover">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-clock text-yellow-600 text-xl"></i>
+                        </div>
+                        <span class="text-sm font-medium text-yellow-700 bg-yellow-50 px-2 py-1 rounded-full">Pending</span>
+                    </div>
+                    <p class="text-3xl font-bold text-secondary-800"><%= stats.pending %></p>
+                    <p class="text-sm text-secondary-500">Awaiting Action</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-secondary-100 card-hover">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-check-circle text-green-600 text-xl"></i>
+                        </div>
+                        <span class="text-sm font-medium text-green-700 bg-green-50 px-2 py-1 rounded-full">Approved</span>
+                    </div>
+                    <p class="text-3xl font-bold text-secondary-800"><%= stats.approved %></p>
+                    <p class="text-sm text-secondary-500">Upcoming</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-secondary-100 card-hover">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-history text-blue-600 text-xl"></i>
+                        </div>
+                        <span class="text-sm font-medium text-blue-700 bg-blue-50 px-2 py-1 rounded-full">Completed</span>
+                    </div>
+                    <p class="text-3xl font-bold text-secondary-800"><%= stats.completed %></p>
+                    <p class="text-sm text-secondary-500">Past Visits</p>
+                </div>
+            </div>
+
+            <!-- Today's Appointments -->
+            <div class="bg-white rounded-xl shadow-sm border border-secondary-100 mb-8">
+                <div class="p-6 border-b border-secondary-100 flex items-center justify-between">
+                    <h2 class="text-xl font-bold text-secondary-800">Today's Appointments</h2>
+                    <a href="/doctor/appointments" class="text-sm text-primary-600 hover:text-primary-700 font-medium">View All <i class="fas fa-arrow-right ml-1"></i></a>
+                </div>
+                <div class="p-6">
+                    <% if (todayAppointments && todayAppointments.length > 0) { %>
+                        <div class="space-y-4">
+                            <% todayAppointments.forEach(function(apt) { %>
+                                <div class="flex items-center justify-between p-4 bg-secondary-50 rounded-lg">
+                                    <div class="flex items-center space-x-4">
+                                        <div class="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
+                                            <i class="fas fa-user text-primary-600 text-lg"></i>
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-secondary-800"><%= apt.patient_first_name %> <%= apt.patient_last_name %></p>
+                                            <p class="text-sm text-secondary-500"><i class="far fa-clock mr-1"></i> <%= apt.appointment_time %></p>
+                                            <p class="text-xs text-secondary-400"><%= apt.reason %></p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="px-3 py-1 rounded-full text-xs font-medium status-<%= apt.status %>"><%= apt.status.charAt(0).toUpperCase() + apt.status.slice(1) %></span>
+                                        <% if (apt.status === 'pending') { %>
+                                            <form action="/doctor/appointments/<%= apt.aid %>/approve" method="POST" class="inline">
+                                                <button type="submit" class="px-3 py-1 bg-green-500 text-white text-xs rounded-lg hover:bg-green-600 transition-colors"><i class="fas fa-check mr-1"></i> Approve</button>
+                                            </form>
+                                            <form action="/doctor/appointments/<%= apt.aid %>/reject" method="POST" class="inline">
+                                                <button type="submit" class="px-3 py-1 bg-red-500 text-white text-xs rounded-lg hover:bg-red-600 transition-colors"><i class="fas fa-times mr-1"></i> Reject</button>
+                                            </form>
+                                        <% } else if (apt.status === 'approved') { %>
+                                            <form action="/doctor/appointments/<%= apt.aid %>/complete" method="POST" class="inline">
+                                                <button type="submit" class="px-3 py-1 bg-blue-500 text-white text-xs rounded-lg hover:bg-blue-600 transition-colors"><i class="fas fa-check-double mr-1"></i> Complete</button>
+                                            </form>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            <% }); %>
+                        </div>
+                    <% } else { %>
+                        <div class="text-center py-8">
+                            <div class="w-16 h-16 bg-secondary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-calendar-check text-secondary-400 text-2xl"></i>
+                            </div>
+                            <p class="text-secondary-500">No appointments scheduled for today.</p>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+
+            <!-- Recent Appointments -->
+            <div class="bg-white rounded-xl shadow-sm border border-secondary-100">
+                <div class="p-6 border-b border-secondary-100 flex items-center justify-between">
+                    <h2 class="text-xl font-bold text-secondary-800">Recent Appointments</h2>
+                    <a href="/doctor/appointments" class="text-sm text-primary-600 hover:text-primary-700 font-medium">View All <i class="fas fa-arrow-right ml-1"></i></a>
+                </div>
+                <div class="p-6">
+                    <% if (allAppointments && allAppointments.length > 0) { %>
+                        <div class="space-y-4">
+                            <% allAppointments.forEach(function(apt) { %>
+                                <div class="flex items-center justify-between p-4 bg-secondary-50 rounded-lg">
+                                    <div class="flex items-center space-x-4">
+                                        <div class="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
+                                            <i class="fas fa-user text-primary-600 text-lg"></i>
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-secondary-800"><%= apt.patient_first_name %> <%= apt.patient_last_name %></p>
+                                            <p class="text-sm text-secondary-500"><i class="far fa-calendar mr-1"></i> <%= new Date(apt.appointment_date).toLocaleDateString() %> at <%= apt.appointment_time %></p>
+                                        </div>
+                                    </div>
+                                    <span class="px-3 py-1 rounded-full text-xs font-medium status-<%= apt.status %>"><%= apt.status.charAt(0).toUpperCase() + apt.status.slice(1) %></span>
+                                </div>
+                            <% }); %>
+                        </div>
+                    <% } else { %>
+                        <div class="text-center py-8">
+                            <div class="w-16 h-16 bg-secondary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-calendar text-secondary-400 text-2xl"></i>
+                            </div>
+                            <p class="text-secondary-500">No appointments yet.</p>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<%- include('../partials/footer') %>
