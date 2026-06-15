@@ -1,0 +1,92 @@
+<% 
+    const menuItems = {
+        patient: [
+            { href: '/patient/dashboard', icon: 'fa-tachometer-alt', label: 'Dashboard' },
+            { href: '/patient/search-doctors', icon: 'fa-user-md', label: 'Search Doctors' },
+            { href: '/patient/book-appointment', icon: 'fa-calendar-plus', label: 'Book Appointment' },
+            { href: '/patient/appointments', icon: 'fa-calendar-check', label: 'My Appointments' },
+            { href: '/patient/profile', icon: 'fa-user-circle', label: 'My Profile' }
+        ],
+        doctor: [
+            { href: '/doctor/dashboard', icon: 'fa-tachometer-alt', label: 'Dashboard' },
+            { href: '/doctor/appointments', icon: 'fa-calendar-check', label: 'Appointments' },
+            { href: '/doctor/profile', icon: 'fa-user-circle', label: 'My Profile' }
+        ],
+        admin: [
+            { href: '/admin/dashboard', icon: 'fa-tachometer-alt', label: 'Dashboard' },
+            { href: '/admin/doctors', icon: 'fa-user-md', label: 'Doctors' },
+            { href: '/admin/patients', icon: 'fa-users', label: 'Patients' },
+            { href: '/admin/appointments', icon: 'fa-calendar-check', label: 'Appointments' }
+        ]
+    };
+    const currentMenu = menuItems[userRole] || [];
+%>
+
+<!-- Sidebar -->
+<aside class="w-64 bg-white shadow-sm border-r border-secondary-200 hidden lg:block min-h-screen">
+    <div class="p-6">
+        <div class="flex items-center space-x-3 mb-8">
+            <div class="w-12 h-12 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center">
+                <i class="fas fa-hospital-alt text-white text-xl"></i>
+            </div>
+            <div>
+                <h2 class="text-lg font-bold text-secondary-800">MediCare</h2>
+                <p class="text-xs text-secondary-500 capitalize"><%= userRole %> Panel</p>
+            </div>
+        </div>
+
+        <nav class="space-y-1">
+            <% currentMenu.forEach(function(item) { %>
+                <% const isActive = currentPath === item.href; %>
+                <a href="<%= item.href %>" class="sidebar-link flex items-center px-4 py-3 rounded-lg text-sm font-medium <%= isActive ? 'active' : 'text-secondary-600' %>">
+                    <i class="fas <%= item.icon %> w-5 mr-3"></i>
+                    <%= item.label %>
+                </a>
+            <% }); %>
+        </nav>
+
+        <div class="mt-8 pt-6 border-t border-secondary-200">
+            <a href="/" class="sidebar-link flex items-center px-4 py-3 rounded-lg text-sm font-medium text-secondary-600">
+                <i class="fas fa-home w-5 mr-3"></i>
+                Back to Home
+            </a>
+            <a href="/auth/logout" class="sidebar-link flex items-center px-4 py-3 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50">
+                <i class="fas fa-sign-out-alt w-5 mr-3"></i>
+                Logout
+            </a>
+        </div>
+    </div>
+</aside>
+
+<!-- Mobile Sidebar Toggle -->
+<button onclick="document.getElementById('mobile-sidebar').classList.toggle('hidden')" class="lg:hidden fixed bottom-4 right-4 w-14 h-14 bg-primary-600 text-white rounded-full shadow-lg flex items-center justify-center z-50">
+    <i class="fas fa-bars"></i>
+</button>
+
+<!-- Mobile Sidebar -->
+<div id="mobile-sidebar" class="hidden lg:hidden fixed inset-0 z-40">
+    <div class="absolute inset-0 bg-black bg-opacity-50" onclick="document.getElementById('mobile-sidebar').classList.add('hidden')"></div>
+    <div class="absolute left-0 top-0 w-64 h-full bg-white shadow-xl">
+        <div class="p-6">
+            <div class="flex items-center justify-between mb-8">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-700 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-hospital-alt text-white"></i>
+                    </div>
+                    <span class="font-bold text-secondary-800">MediCare</span>
+                </div>
+                <button onclick="document.getElementById('mobile-sidebar').classList.add('hidden')" class="text-secondary-400 hover:text-secondary-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <nav class="space-y-1">
+                <% currentMenu.forEach(function(item) { %>
+                    <a href="<%= item.href %>" class="sidebar-link flex items-center px-4 py-3 rounded-lg text-sm font-medium text-secondary-600">
+                        <i class="fas <%= item.icon %> w-5 mr-3"></i>
+                        <%= item.label %>
+                    </a>
+                <% }); %>
+            </nav>
+        </div>
+    </div>
+</div>

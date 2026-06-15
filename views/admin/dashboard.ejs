@@ -1,0 +1,119 @@
+<%- include('../partials/header') %>
+<%- include('../partials/nav') %>
+
+<div class="flex min-h-screen bg-secondary-50">
+    <%- include('../partials/sidebar', { currentPath: '/admin/dashboard' }) %>
+
+    <main class="flex-1 p-6 lg:p-8 overflow-y-auto">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-secondary-800">Admin Dashboard</h1>
+                <p class="text-secondary-500 mt-1">Overview of hospital operations and statistics</p>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-secondary-100 card-hover">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-user-md text-primary-600 text-xl"></i>
+                        </div>
+                        <span class="text-sm font-medium text-primary-600 bg-primary-50 px-2 py-1 rounded-full">Total</span>
+                    </div>
+                    <p class="text-3xl font-bold text-secondary-800"><%= stats.doctors %></p>
+                    <p class="text-sm text-secondary-500">Doctors</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-secondary-100 card-hover">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-accent-100 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-users text-accent-600 text-xl"></i>
+                        </div>
+                        <span class="text-sm font-medium text-accent-600 bg-accent-50 px-2 py-1 rounded-full">Total</span>
+                    </div>
+                    <p class="text-3xl font-bold text-secondary-800"><%= stats.patients %></p>
+                    <p class="text-sm text-secondary-500">Patients</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-secondary-100 card-hover">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-calendar-check text-green-600 text-xl"></i>
+                        </div>
+                        <span class="text-sm font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full">Total</span>
+                    </div>
+                    <p class="text-3xl font-bold text-secondary-800"><%= stats.appointments %></p>
+                    <p class="text-sm text-secondary-500">Appointments</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-secondary-100 card-hover">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-clock text-yellow-600 text-xl"></i>
+                        </div>
+                        <span class="text-sm font-medium text-yellow-700 bg-yellow-50 px-2 py-1 rounded-full">Pending</span>
+                    </div>
+                    <p class="text-3xl font-bold text-secondary-800"><%= stats.pending %></p>
+                    <p class="text-sm text-secondary-500">Awaiting Approval</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-secondary-100 card-hover">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-check-circle text-green-600 text-xl"></i>
+                        </div>
+                        <span class="text-sm font-medium text-green-700 bg-green-50 px-2 py-1 rounded-full">Approved</span>
+                    </div>
+                    <p class="text-3xl font-bold text-secondary-800"><%= stats.approved %></p>
+                    <p class="text-sm text-secondary-500">Upcoming</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-secondary-100 card-hover">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-history text-blue-600 text-xl"></i>
+                        </div>
+                        <span class="text-sm font-medium text-blue-700 bg-blue-50 px-2 py-1 rounded-full">Completed</span>
+                    </div>
+                    <p class="text-3xl font-bold text-secondary-800"><%= stats.completed %></p>
+                    <p class="text-sm text-secondary-500">Past Visits</p>
+                </div>
+            </div>
+
+            <!-- Recent Appointments -->
+            <div class="bg-white rounded-xl shadow-sm border border-secondary-100 overflow-hidden">
+                <div class="p-6 border-b border-secondary-100 flex items-center justify-between">
+                    <h2 class="text-xl font-bold text-secondary-800">Recent Appointments</h2>
+                    <a href="/admin/appointments" class="text-sm text-primary-600 hover:text-primary-700 font-medium">View All <i class="fas fa-arrow-right ml-1"></i></a>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-secondary-50 border-b border-secondary-200">
+                            <tr>
+                                <th class="px-6 py-4 text-left text-xs font-medium text-secondary-500 uppercase tracking-wider">Patient</th>
+                                <th class="px-6 py-4 text-left text-xs font-medium text-secondary-500 uppercase tracking-wider">Doctor</th>
+                                <th class="px-6 py-4 text-left text-xs font-medium text-secondary-500 uppercase tracking-wider">Date</th>
+                                <th class="px-6 py-4 text-left text-xs font-medium text-secondary-500 uppercase tracking-wider">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-secondary-100">
+                            <% if (recentAppointments && recentAppointments.length > 0) { %>
+                                <% recentAppointments.forEach(function(apt) { %>
+                                    <tr class="hover:bg-secondary-50 transition-colors">
+                                        <td class="px-6 py-4 text-sm font-medium text-secondary-800"><%= apt.patient_first_name %> <%= apt.patient_last_name %></td>
+                                        <td class="px-6 py-4 text-sm text-secondary-600">Dr. <%= apt.doctor_first_name %> <%= apt.doctor_last_name %></td>
+                                        <td class="px-6 py-4 text-sm text-secondary-600"><%= new Date(apt.appointment_date).toLocaleDateString() %> <%= apt.appointment_time %></td>
+                                        <td class="px-6 py-4">
+                                            <span class="px-3 py-1 rounded-full text-xs font-medium status-<%= apt.status %>"><%= apt.status.charAt(0).toUpperCase() + apt.status.slice(1) %></span>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="4" class="px-6 py-8 text-center text-secondary-500">No appointments yet</td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<%- include('../partials/footer') %>
