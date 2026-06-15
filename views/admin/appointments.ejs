@@ -1,0 +1,141 @@
+<%- include('../partials/header') %>
+<%- include('../partials/nav') %>
+
+<div class="flex min-h-screen bg-secondary-50">
+    <%- include('../partials/sidebar', { currentPath: '/admin/appointments' }) %>
+
+    <main class="flex-1 p-6 lg:p-8 overflow-y-auto">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-secondary-800">Manage Appointments</h1>
+                <p class="text-secondary-500 mt-1">View and manage all appointments</p>
+            </div>
+
+            <!-- Filters -->
+            <div class="bg-white rounded-xl shadow-sm border border-secondary-100 p-6 mb-8">
+                <form action="/admin/appointments" method="GET" class="flex flex-wrap gap-4">
+                    <div class="flex-1 min-w-[200px]">
+                        <select name="status" class="block w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors text-sm">
+                            <option value="">All Statuses</option>
+                            <option value="pending" <%= filters.status === 'pending' ? 'selected' : '' %>>Pending</option>
+                            <option value="approved" <%= filters.status === 'approved' ? 'selected' : '' %>>Approved</option>
+                            <option value="rejected" <%= filters.status === 'rejected' ? 'selected' : '' %>>Rejected</option>
+                            <option value="completed" <%= filters.status === 'completed' ? 'selected' : '' %>>Completed</option>
+                            <option value="cancelled" <%= filters.status === 'cancelled' ? 'selected' : '' %>>Cancelled</option>
+                        </select>
+                    </div>
+                    <div class="flex-1 min-w-[200px]">
+                        <select name="doctorId" class="block w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors text-sm">
+                            <option value="">All Doctors</option>
+                            <% doctors.forEach(function(doc) { %>
+                                <option value="<%= doc.did %>" <%= filters.doctorId == doc.did ? 'selected' : '' %>>Dr. <%= doc.first_name %> <%= doc.last_name %></option>
+                            <% }); %>
+                        </select>
+                    </div>
+                    <div class="flex-1 min-w-[200px]">
+                        <select name="patientId" class="block w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors text-sm">
+                            <option value="">All Patients</option>
+                            <% patients.forEach(function(pat) { %>
+                                <option value="<%= pat.pid %>" <%= filters.patientId == pat.pid ? 'selected' : '' %>><%= pat.first_name %> <%= pat.last_name %></option>
+                            <% }); %>
+                        </select>
+                    </div>
+                    <button type="submit" class="px-6 py-3 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-lg text-sm font-medium hover:from-primary-600 hover:to-primary-700 transition-colors shadow-md">
+                        <i class="fas fa-filter mr-2"></i> Filter
+                    </button>
+                </form>
+            </div>
+
+            <% if (appointments && appointments.length > 0) { %>
+                <div class="bg-white rounded-xl shadow-sm border border-secondary-100 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-secondary-50 border-b border-secondary-200">
+                                <tr>
+                                    <th class="px-6 py-4 text-left text-xs font-medium text-secondary-500 uppercase tracking-wider">Patient</th>
+                                    <th class="px-6 py-4 text-left text-xs font-medium text-secondary-500 uppercase tracking-wider">Doctor</th>
+                                    <th class="px-6 py-4 text-left text-xs font-medium text-secondary-500 uppercase tracking-wider">Date & Time</th>
+                                    <th class="px-6 py-4 text-left text-xs font-medium text-secondary-500 uppercase tracking-wider">Reason</th>
+                                    <th class="px-6 py-4 text-left text-xs font-medium text-secondary-500 uppercase tracking-wider">Status</th>
+                                    <th class="px-6 py-4 text-right text-xs font-medium text-secondary-500 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-secondary-100">
+                                <% appointments.forEach(function(apt) { %>
+                                    <tr class="hover:bg-secondary-50 transition-colors">
+                                        <td class="px-6 py-4">
+                                            <div class="flex items-center">
+                                                <div class="w-10 h-10 bg-accent-100 rounded-lg flex items-center justify-center mr-3">
+                                                    <i class="fas fa-user text-accent-600"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="text-sm font-medium text-secondary-800"><%= apt.patient_first_name %> <%= apt.patient_last_name %></p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div class="flex items-center">
+                                                <div class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center mr-3">
+                                                    <i class="fas fa-user-md text-primary-600"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="text-sm font-medium text-secondary-800">Dr. <%= apt.doctor_first_name %> <%= apt.doctor_last_name %></p>
+                                                    <p class="text-xs text-secondary-500"><%= apt.specialization %></p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <p class="text-sm text-secondary-800"><%= new Date(apt.appointment_date).toLocaleDateString() %></p>
+                                            <p class="text-xs text-secondary-500"><%= apt.appointment_time %></p>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <p class="text-sm text-secondary-600 max-w-xs truncate"><%= apt.reason %></p>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <span class="px-3 py-1 rounded-full text-xs font-medium status-<%= apt.status %>">
+                                                <%= apt.status.charAt(0).toUpperCase() + apt.status.slice(1) %>
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 text-right">
+                                            <div class="flex items-center justify-end space-x-2">
+                                                <% if (apt.status === 'pending') { %>
+                                                    <form action="/admin/appointments/<%= apt.aid %>/status" method="POST" class="inline">
+                                                        <input type="hidden" name="status" value="approved">
+                                                        <button type="submit" class="text-green-600 hover:text-green-800 text-sm font-medium transition-colors" title="Approve">
+                                                            <i class="fas fa-check-circle"></i>
+                                                        </button>
+                                                    </form>
+                                                    <form action="/admin/appointments/<%= apt.aid %>/status" method="POST" class="inline">
+                                                        <input type="hidden" name="status" value="rejected">
+                                                        <button type="submit" class="text-red-600 hover:text-red-800 text-sm font-medium transition-colors" title="Reject">
+                                                            <i class="fas fa-times-circle"></i>
+                                                        </button>
+                                                    </form>
+                                                <% } %>
+                                                <form action="/admin/appointments/delete/<%= apt.aid %>" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this appointment?');">
+                                                    <button type="submit" class="text-red-600 hover:text-red-800 text-sm font-medium transition-colors" title="Delete">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            <% } else { %>
+                <div class="bg-white rounded-xl shadow-sm border border-secondary-100 p-12 text-center">
+                    <div class="w-20 h-20 bg-secondary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-calendar text-secondary-400 text-3xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-secondary-800 mb-2">No appointments found</h3>
+                    <p class="text-secondary-500">Try adjusting your filters or check back later.</p>
+                </div>
+            <% } %>
+        </div>
+    </main>
+</div>
+
+<%- include('../partials/footer') %>

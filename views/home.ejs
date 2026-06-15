@@ -1,0 +1,194 @@
+<%- include('partials/header') %>
+<%- include('partials/nav') %>
+
+<!-- Hero Section -->
+<div class="relative bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+    <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+</div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
+        <div class="text-center lg:text-left lg:flex lg:items-center lg:justify-between">
+            <div class="lg:w-1/2">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
+                    Your Health,<br>
+                    <span class="text-primary-200">Our Priority</span>
+                </h1>
+                <p class="text-lg text-primary-100 mb-8 max-w-xl">
+                    Book appointments with top doctors, manage your health records, and receive quality care - all in one place.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                    <a href="/auth/register" class="inline-flex items-center justify-center px-8 py-4 border border-transparent text-base font-medium rounded-xl text-primary-700 bg-white hover:bg-primary-50 transition-colors shadow-lg">
+                        <i class="fas fa-user-plus mr-2"></i> Get Started
+                    </a>
+                    <a href="/about" class="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-base font-medium rounded-xl text-white hover:bg-white hover:text-primary-700 transition-colors">
+                        <i class="fas fa-info-circle mr-2"></i> Learn More
+                    </a>
+                </div>
+            </div>
+            <div class="hidden lg:block lg:w-1/2 mt-12 lg:mt-0">
+                <div class="relative">
+                    <div class="absolute -inset-4 bg-white bg-opacity-20 rounded-3xl blur-2xl"></div>
+                    <div class="relative bg-white rounded-2xl shadow-2xl p-6">
+                        <div class="flex items-center space-x-4 mb-4">
+                            <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-user-md text-primary-600 text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-semibold text-secondary-800">Dr. Sara</p>
+                                <p class="text-xs text-secondary-500">Cardiologist</p>
+                            </div>
+                            <span class="ml-auto bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full">Available</span>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between p-3 bg-secondary-50 rounded-lg">
+                                <span class="text-sm text-secondary-600">Today, 2:00 PM</span>
+                                <span class="text-xs bg-primary-100 text-primary-700 px-2 py-1 rounded">Booked</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-secondary-50 rounded-lg">
+                                <span class="text-sm text-secondary-600">Today, 3:30 PM</span>
+                                <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">Available</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-secondary-50 rounded-lg">
+                                <span class="text-sm text-secondary-600">Today, 5:00 PM</span>
+                                <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">Available</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Stats Section -->
+<div class="bg-white border-b border-secondary-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div class="text-center">
+                <div class="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-user-md text-primary-600 text-xl"></i>
+                </div>
+                <p class="text-2xl font-bold text-secondary-800"><%= stats.doctors %></p>
+                <p class="text-sm text-secondary-500">Expert Doctors</p>
+            </div>
+            <div class="text-center">
+                <div class="w-12 h-12 bg-accent-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-users text-accent-600 text-xl"></i>
+                </div>
+                <p class="text-2xl font-bold text-secondary-800"><%= stats.patients %></p>
+                <p class="text-sm text-secondary-500">Happy Patients</p>
+            </div>
+            <div class="text-center">
+                <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-calendar-check text-green-600 text-xl"></i>
+                </div>
+                <p class="text-2xl font-bold text-secondary-800"><%= stats.appointments %></p>
+                <p class="text-sm text-secondary-500">Appointments</p>
+            </div>
+            <div class="text-center">
+                <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-star text-red-500 text-xl"></i>
+                </div>
+                <p class="text-2xl font-bold text-secondary-800">4.9</p>
+                <p class="text-sm text-secondary-500">Rating</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="bg-secondary-50 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-secondary-800 mb-4">Why Choose MediCare?</h2>
+            <p class="text-lg text-secondary-500 max-w-2xl mx-auto">We provide a seamless healthcare experience with modern technology and compassionate care.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-white rounded-2xl p-8 shadow-sm border border-secondary-100 card-hover">
+                <div class="w-14 h-14 bg-primary-100 rounded-2xl flex items-center justify-center mb-6">
+                    <i class="fas fa-calendar-alt text-primary-600 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-secondary-800 mb-3">Easy Booking</h3>
+                <p class="text-secondary-500">Book appointments with your preferred doctors in just a few clicks. Available 24/7.</p>
+            </div>
+            <div class="bg-white rounded-2xl p-8 shadow-sm border border-secondary-100 card-hover">
+                <div class="w-14 h-14 bg-accent-100 rounded-2xl flex items-center justify-center mb-6">
+                    <i class="fas fa-user-md text-accent-600 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-secondary-800 mb-3">Expert Doctors</h3>
+                <p class="text-secondary-500">Access to a wide network of qualified and experienced healthcare professionals.</p>
+            </div>
+            <div class="bg-white rounded-2xl p-8 shadow-sm border border-secondary-100 card-hover">
+                <div class="w-14 h-14 bg-green-100 rounded-2xl flex items-center justify-center mb-6">
+                    <i class="fas fa-shield-alt text-green-600 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-secondary-800 mb-3">Secure & Private</h3>
+                <p class="text-secondary-500">Your health data is protected with industry-standard security measures.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Featured Doctors Section -->
+<div class="bg-white py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between mb-12">
+            <div>
+                <h2 class="text-3xl font-bold text-secondary-800 mb-2">Featured Doctors</h2>
+                <p class="text-secondary-500">Meet some of our top healthcare professionals</p>
+            </div>
+            <a href="/auth/register" class="hidden md:inline-flex items-center px-6 py-3 border border-primary-600 text-primary-600 rounded-lg hover:bg-primary-50 transition-colors font-medium">
+                View All Doctors <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <% if (featuredDoctors && featuredDoctors.length > 0) { %>
+                <% featuredDoctors.forEach(function(doctor) { %>
+                    <div class="bg-white rounded-2xl border border-secondary-200 overflow-hidden card-hover">
+                        <div class="h-24 bg-gradient-to-r from-primary-500 to-primary-600"></div>
+                        <div class="px-6 pb-6">
+                            <div class="relative -mt-10 mb-4">
+                                <div class="w-20 h-20 bg-white rounded-full border-4 border-white shadow-lg flex items-center justify-center mx-auto">
+                                    <i class="fas fa-user-md text-primary-500 text-3xl"></i>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <h3 class="text-lg font-bold text-secondary-800">Dr. <%= doctor.first_name %> <%= doctor.last_name %></h3>
+                                <p class="text-sm text-primary-600 font-medium mb-2"><%= doctor.specialization %></p>
+                                <p class="text-xs text-secondary-500 mb-3"><%= doctor.experience_years %> years experience</p>
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
+                                    <i class="fas fa-check-circle mr-1"></i> Available
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <div class="col-span-full text-center py-12">
+                    <div class="w-16 h-16 bg-secondary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-user-md text-secondary-400 text-2xl"></i>
+                    </div>
+                    <p class="text-secondary-500">No doctors available yet. Check back soon!</p>
+                </div>
+            <% } %>
+        </div>
+        <div class="mt-8 text-center md:hidden">
+            <a href="/auth/register" class="inline-flex items-center px-6 py-3 border border-primary-600 text-primary-600 rounded-lg hover:bg-primary-50 transition-colors font-medium">
+                View All Doctors <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Section -->
+<div class="bg-gradient-to-r from-primary-600 to-primary-700 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl font-bold text-white mb-4">Ready to Take Control of Your Health?</h2>
+        <p class="text-lg text-primary-100 mb-8 max-w-2xl mx-auto">Join thousands of patients who trust MediCare for their healthcare needs.</p>
+        <a href="/auth/register" class="inline-flex items-center justify-center px-8 py-4 border border-transparent text-base font-medium rounded-xl text-primary-700 bg-white hover:bg-primary-50 transition-colors shadow-lg">
+            <i class="fas fa-user-plus mr-2"></i> Create Free Account
+        </a>
+    </div>
+</div>
+
+<%- include('partials/footer') %>
