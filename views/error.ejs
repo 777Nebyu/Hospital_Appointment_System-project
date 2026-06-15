@@ -1,0 +1,28 @@
+<%- include('partials/header') %>
+<%- include('partials/nav') %>
+
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-secondary-50 via-primary-50 to-accent-50 py-12 px-4">
+    <div class="max-w-md w-full text-center">
+        <div class="w-24 h-24 bg-gradient-to-br from-red-400 to-red-600 rounded-2xl flex items-center justify-center mx-auto shadow-lg mb-6">
+            <i class="fas fa-exclamation-triangle text-white text-4xl"></i>
+        </div>
+        <h1 class="text-6xl font-bold text-secondary-800 mb-2"><%= status || 500 %></h1>
+        <h2 class="text-2xl font-bold text-secondary-700 mb-4">Oops! Something went wrong</h2>
+        <p class="text-secondary-500 mb-8"><%= message || 'An unexpected error occurred.' %></p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="/" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white btn-primary transition-colors">
+                <i class="fas fa-home mr-2"></i> Go Home
+            </a>
+            <a href="javascript:history.back()" class="inline-flex items-center justify-center px-6 py-3 border border-secondary-300 text-base font-medium rounded-lg text-secondary-700 hover:bg-secondary-50 transition-colors">
+                <i class="fas fa-arrow-left mr-2"></i> Go Back
+            </a>
+        </div>
+        <% if (stack && process.env.NODE_ENV === 'development') { %>
+            <div class="mt-8 text-left">
+                <pre class="bg-secondary-800 text-secondary-200 p-4 rounded-lg overflow-x-auto text-xs"><%= stack %></pre>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<%- include('partials/footer') %>
