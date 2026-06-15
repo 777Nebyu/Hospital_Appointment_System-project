@@ -1,0 +1,88 @@
+<%- include('../partials/header') %>
+<%- include('../partials/nav') %>
+
+<div class="flex min-h-screen bg-secondary-50">
+    <%- include('../partials/sidebar', { currentPath: '/admin/doctors' }) %>
+
+    <main class="flex-1 p-6 lg:p-8 overflow-y-auto">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <h1 class="text-3xl font-bold text-secondary-800">Manage Doctors</h1>
+                    <p class="text-secondary-500 mt-1">Add, edit, and manage doctor profiles</p>
+                </div>
+                <a href="/admin/doctors/add" class="px-4 py-2 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-lg text-sm font-medium hover:from-primary-600 hover:to-primary-700 transition-colors shadow-md">
+                    <i class="fas fa-plus mr-2"></i> Add Doctor
+                </a>
+            </div>
+
+            <% if (doctors && doctors.length > 0) { %>
+                <div class="bg-white rounded-xl shadow-sm border border-secondary-100 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-secondary-50 border-b border-secondary-200">
+                                <tr>
+                                    <th class="px-6 py-4 text-left text-xs font-medium text-secondary-500 uppercase tracking-wider">Name</th>
+                                    <th class="px-6 py-4 text-left text-xs font-medium text-secondary-500 uppercase tracking-wider">Specialization</th>
+                                    <th class="px-6 py-4 text-left text-xs font-medium text-secondary-500 uppercase tracking-wider">Experience</th>
+                                    <th class="px-6 py-4 text-left text-xs font-medium text-secondary-500 uppercase tracking-wider">Email</th>
+                                    <th class="px-6 py-4 text-left text-xs font-medium text-secondary-500 uppercase tracking-wider">Status</th>
+                                    <th class="px-6 py-4 text-right text-xs font-medium text-secondary-500 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-secondary-100">
+                                <% doctors.forEach(function(doctor) { %>
+                                    <tr class="hover:bg-secondary-50 transition-colors">
+                                        <td class="px-6 py-4">
+                                            <div class="flex items-center">
+                                                <div class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center mr-3">
+                                                    <i class="fas fa-user-md text-primary-600"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="text-sm font-medium text-secondary-800">Dr. <%= doctor.first_name %> <%= doctor.last_name %></p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 text-sm text-secondary-600"><%= doctor.specialization %></td>
+                                        <td class="px-6 py-4 text-sm text-secondary-600"><%= doctor.experience_years %> years</td>
+                                        <td class="px-6 py-4 text-sm text-secondary-600"><%= doctor.email %></td>
+                                        <td class="px-6 py-4">
+                                            <span class="px-3 py-1 rounded-full text-xs font-medium <%= doctor.is_active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' %>">
+                                                <%= doctor.is_active ? 'Active' : 'Inactive' %>
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 text-right">
+                                            <div class="flex items-center justify-end space-x-2">
+                                                <a href="/admin/doctors/edit/<%= doctor.did %>" class="text-primary-600 hover:text-primary-800 text-sm font-medium transition-colors" title="Edit">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <form action="/admin/doctors/delete/<%= doctor.did %>" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this doctor?');">
+                                                    <button type="submit" class="text-red-600 hover:text-red-800 text-sm font-medium transition-colors" title="Delete">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            <% } else { %>
+                <div class="bg-white rounded-xl shadow-sm border border-secondary-100 p-12 text-center">
+                    <div class="w-20 h-20 bg-secondary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-user-md text-secondary-400 text-3xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-secondary-800 mb-2">No doctors yet</h3>
+                    <p class="text-secondary-500 mb-6">Add your first doctor to get started.</p>
+                    <a href="/admin/doctors/add" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-lg text-sm font-medium hover:from-primary-600 hover:to-primary-700 transition-colors shadow-md">
+                        <i class="fas fa-plus mr-2"></i> Add Doctor
+                    </a>
+                </div>
+            <% } %>
+        </div>
+    </main>
+</div>
+
+<%- include('../partials/footer') %>
